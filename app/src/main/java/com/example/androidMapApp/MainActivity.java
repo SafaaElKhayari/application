@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startAct(){
-        Intent i =new Intent(this,MapsActivity.class);
+        Intent i =new Intent(this, Carte.class);
         startActivity(i);
     }
 }

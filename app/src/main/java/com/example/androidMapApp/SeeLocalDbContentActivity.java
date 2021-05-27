@@ -31,12 +31,11 @@ public class SeeLocalDbContentActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         i = getIntent();
-
+        // permet d'enregistrer les événements du système ou de l'application.
         BroadcastReceiver broadcast_reciever = new BroadcastReceiver() {
             @Override
             public void onReceive(Context arg0, Intent intent) {
                 String action = intent.getAction();
-
                 String username = intent.getStringExtra("username");
                 String description = intent.getStringExtra("description");
                 double latitude = intent.getDoubleExtra("latitude", 0.0);
@@ -63,14 +62,15 @@ public class SeeLocalDbContentActivity extends AppCompatActivity {
         registerReceiver(broadcast_reciever, new IntentFilter("finish"));
 
 
-        SQLiteOpenHelper dbManager = new LocalDbManager(this); //getting a reference to the db
+        SQLiteOpenHelper dbManager = new LocalDbManager(this); // référence à la base donner
 
         try {
             SQLiteDatabase db = dbManager.getReadableDatabase();
             Cursor cursor = db.query("locations", new String[] {"username", "description", "latitude", "longitude", "date",
                     "number_votes", "sum_votes"},
                     null, null, null, null, null);
-            ArrayList<Location> locationList = new ArrayList<>();
+            ArrayList<Localisation> locationList = new ArrayList<>();
+            //lire de la base de données dans le tableau locationList
             while (cursor.moveToNext()) {
                 String username = cursor.getString(0);
                 String description = cursor.getString(1);
@@ -79,11 +79,11 @@ public class SeeLocalDbContentActivity extends AppCompatActivity {
                 String date = cursor.getString(4);
                 int numberVotes = cursor.getInt(5);
                 int sumVotes = cursor.getInt(6);
-                locationList.add(new Location(username, description, date, latitude, longitude, numberVotes, sumVotes));
+                locationList.add(new Localisation(username, description, date, latitude, longitude, numberVotes, sumVotes));
             }
-
+            //affecter à la listView le résultat de LocationAdapter
             ListView listView = findViewById(R.id.list_view);
-            listView.setAdapter(new LocationAdapter(SeeLocalDbContentActivity.this,locationList ) );
+            listView.setAdapter(new LocalisationAdapter(SeeLocalDbContentActivity.this,locationList ) );
             cursor.close();
             db.close();
 

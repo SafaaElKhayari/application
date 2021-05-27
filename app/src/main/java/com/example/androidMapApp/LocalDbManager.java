@@ -18,8 +18,8 @@ public class LocalDbManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //creating the table ( tab(_id, name) )
-        db.execSQL("CREATE TABLE locations (_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, description TEXT," +
+        //creation de la base de données ( tab(_id, name) )
+        db.execSQL("CREATE TABLE locations (_id INTEGER PRIMARY KEY AUTOINCREMENT, sitename TEXT, description TEXT," +
                 " latitude FLOAT, longitude FLOAT, date TEXT, number_votes INTEGER, sum_votes INTEGER )" );
 
         db.delete("locations",null,null);
@@ -31,19 +31,19 @@ public class LocalDbManager extends SQLiteOpenHelper {
 
     }
     
-    public void insertOneLocation(Location location) {
+    public void insertOneLocation(Localisation location) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues c = new ContentValues();
 
-        c.put("username", location.username);
+        c.put("username", location.sitename);
         c.put("description", location.description);
         c.put("date", location.date);
         c.put("latitude", location.latitude);
         c.put("longitude", location.longitude);
         c.put("number_votes", location.numberVotes);
         c.put("sum_votes", location.sumVotes);
-
+        //inser des éléments à la base de données
         db.insert("locations", null, c);
         
         db.close();

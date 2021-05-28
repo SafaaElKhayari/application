@@ -58,9 +58,7 @@ public class Carte extends AppCompatActivity implements OnMapReadyCallback, Goog
     private Marker mTanger;
     private Marker myMarker;
 
-    public final static int SAVE_PLACE_CODE = 1;
-    //public final static int EXPLORE_CODE = 2;
-    //public final static int SYNCHRONIZE_CODE = 3;
+    //public final static int SAVE_PLACE_CODE = 1;
     public final static int EXPLORE_LOCAL_CODE = 4;
 
     @Override
@@ -181,7 +179,7 @@ public class Carte extends AppCompatActivity implements OnMapReadyCallback, Goog
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMapClickListener(this);
 
-        //requesting permission to access current location of the user and setting events when clicking on button to show curr location
+        //demander la permession et permetter par suite de récupérer la localisation actuelle
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
@@ -199,27 +197,22 @@ public class Carte extends AppCompatActivity implements OnMapReadyCallback, Goog
             marker.showInfoWindow();
         }else {
             Localisation location = (Localisation) marker.getTag();
-            String ratingg = "" + (double) location.sumVotes / location.numberVotes;
 
-            String username = location.sitename;
+            String sitename = location.sitename;
             String description = location.description;
             final double latitude = location.latitude;
             final double longitude = location.longitude;
             String date = location.date;
             int numberVotes = location.numberVotes;
-            int sumVotes = location.sumVotes;
-
-            double rating = numberVotes == 0 ? 0.0 : (double) sumVotes / numberVotes;
             DecimalFormat df = new DecimalFormat("#.##");
 
+            VotesPopup votesPopup = new VotesPopup(Carte.this);
+            votesPopup.setTitle(sitename);
+            votesPopup.setDescription(description);
+            votesPopup.setRatingValue(Double.parseDouble( df.format(numberVotes) ));
 
-            VotesPopup ratingPopup = new VotesPopup(Carte.this);
-            ratingPopup.setTitle(username);
-            ratingPopup.setDescription(description);
-            ratingPopup.setRatingValue(Double.parseDouble( df.format(rating) ));
 
-
-            ratingPopup.getRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            votesPopup.getRatingBar().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     Toast.makeText(getApplicationContext(), "rating : " + rating, Toast.LENGTH_SHORT).show();
@@ -228,7 +221,7 @@ public class Carte extends AppCompatActivity implements OnMapReadyCallback, Goog
                 }
             });
 
-            ratingPopup.build();
+            votesPopup.build();
         }
         return false;
     }

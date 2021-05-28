@@ -42,7 +42,7 @@ public class SeeLocalDbContentActivity extends AppCompatActivity {
                 double longitude = intent.getDoubleExtra("longitude", 0.0);
                 String date = intent.getStringExtra("date");
                 int numberVotes = intent.getIntExtra("numberVotes", 0);
-                int sumVotes = intent.getIntExtra("sumVotes", 0);
+
 
                 if (action.equals("finish")) {
 
@@ -52,8 +52,6 @@ public class SeeLocalDbContentActivity extends AppCompatActivity {
                     i.putExtra("longitude", longitude);
                     i.putExtra("date", date);
                     i.putExtra("numberVotes", numberVotes);
-                    i.putExtra("sumVotes", sumVotes);
-
                     SeeLocalDbContentActivity.this.setResult(Activity.RESULT_OK, i);
                     finish();
                 }

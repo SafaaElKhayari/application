@@ -56,10 +56,8 @@ public class LocalisationAdapter extends BaseAdapter {
         final double latitude = currentLocation.latitude;
         final double longitude = currentLocation.longitude;
         final String date = currentLocation.date;
-
         final int numberVotes = currentLocation.numberVotes;
-        final int sumVotes = currentLocation.sumVotes;
-        final double rating = numberVotes == 0 ? 0.0 : (double)sumVotes / numberVotes;
+
 
         TextView locationSitenameView = view.findViewById(R.id.location_sitename);
         locationSitenameView.append(sitename);
@@ -70,7 +68,7 @@ public class LocalisationAdapter extends BaseAdapter {
         DecimalFormat df = new DecimalFormat("#.##");
 
         TextView locationRatingView = view.findViewById(R.id.location_rating);
-        locationRatingView.append( df.format(rating) );
+        locationRatingView.append( df.format(numberVotes) );
 
         TextView locationDateView = view.findViewById(R.id.location_date);
         locationDateView.append(date);
@@ -90,7 +88,6 @@ public class LocalisationAdapter extends BaseAdapter {
                 i.putExtra("longitude", longitude);
                 i.putExtra("date", date);
                 i.putExtra("numberVotes", numberVotes);
-                i.putExtra("sumVotes", sumVotes);
 
                 context.sendBroadcast(i);
             }
